@@ -17,3 +17,7 @@ of each of the subneighborhoods of this neighborhood and loops through
 these subneighborhoods. It calls M2Median on each of these neighborhoods
 and adds the returned medians together. It then finds the mean of all these
 median values and returns this value.
+
+## Main
+The main function currently only tests the ability of M1Median to correctly find and return the average
+median of a 9x9 window from a texture of the Kylberg dataset. 
