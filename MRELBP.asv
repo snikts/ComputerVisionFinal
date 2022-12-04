@@ -1,0 +1,35 @@
+function [newIm] = MRELBP(originalIm, M1)
+%MRELBP Find MRELBP of originalIm with neighborhood size of M1
+%   Calculates Median Robust Extended Local Binary Pattern of image based
+%   on neighborhood size M1.
+
+% calculate rows and columns around center
+diff = floor(M1/2);
+
+% calculate size of original image
+[rows, columns] = size(originalIm);
+
+paddedMatrix = zeros(rows+(diff*2), columns+(diff*2));
+paddedMatrix(diff+1:diff+rows,diff+1:diff+columns)=originalIm;
+newIm = paddedMatrix;
+for r = diff+1:rows
+    for c= diff+1:columns
+        % calculate mean of medians and assign it to center pixel
+        submatrix = paddedMatrix( (r-diff : r+diff), (c-diff : c+diff) );
+        meanVal = M1Median(submatrix);
+        newIm(r-diff, c-diff) = meanVal;
+        if r == 5 && c == 5
+            disp(submatrix);
+            disp("mean=");
+            disp(meanVal);
+        end
+        submatrix(submatrix < meanVal) = 0;
+        submatrix( submatrix >= meanVal ) = 1;
+        if r == 5 && c==5
+            disp(submatrix);
+        end
+        newIm(r-diff:r-diff+M1-1,c-diff:c-diff+M1-1)=submatrix;
+    end
+end
+
+end
